@@ -75,9 +75,9 @@ func main() {
 			return
 		}
 
-		key := parseKey(arguments[2])
+		key := parseKey(arguments[3])
 		if key == nil {
-			emitError("Invalid usage: get command")
+			emitError("Invalid usage: set command")
 			return
 		}
 
