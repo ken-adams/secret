@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 
 	"github.com/gophercises/secret/secret"
 )
@@ -28,14 +27,15 @@ func emitError(message string) {
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		emitError("Specify command you want to perform")
-		return
-	}
 	flag.Parse()
 	arguments := flag.Args()
 
-	switch os.Args[1] {
+	if len(arguments) < 1 {
+		emitError("Specify command you want to perform")
+		return
+	}
+
+	switch arguments[0] {
 	case "get":
 		if len(arguments) != 3 {
 			emitError("Invalid usage: get command")
@@ -58,7 +58,7 @@ func main() {
 			emitError(fmt.Sprint(err))
 			return
 		}
-		value, err := v.Get(os.Args[2])
+		value, err := v.Get(arguments[1])
 		if err != nil {
 			emitError(fmt.Sprint(err))
 			return
