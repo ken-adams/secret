@@ -14,6 +14,15 @@ func validateKey(key string) bool {
 	return len(key) == 16
 }
 
+func parseKey(arg string) *string {
+	var result *string
+	if len(arg) > 2 && arg[0:3] == "-k=" {
+		value := arg[3:len(arg)]
+		result = &value
+	}
+	return result
+}
+
 func emitError(message string) {
 	fmt.Println("Error: ", message)
 }
@@ -33,15 +42,18 @@ func main() {
 			return
 		}
 
-		key := arguments[2]
-		key = key[3:len(key)]
+		key := parseKey(arguments[2])
+		if key == nil {
+			emitError("Invalid usage: get command")
+			return
+		}
 
-		if !validateKey(key) {
+		if !validateKey(*key) {
 			emitError("Key is not valid- Length should be at least 16 characters")
 			return
 		}
 
-		v, err := secret.FileVault(key, filePath)
+		v, err := secret.FileVault(*key, filePath)
 		if err != nil {
 			emitError(fmt.Sprint(err))
 			return
@@ -63,15 +75,18 @@ func main() {
 			return
 		}
 
-		key := arguments[3]
-		key = key[3:len(key)]
+		key := parseKey(arguments[2])
+		if key == nil {
+			emitError("Invalid usage: get command")
+			return
+		}
 
-		if !validateKey(key) {
+		if !validateKey(*key) {
 			emitError("Key is not valid: Length should be at least 16 characters")
 			return
 		}
 
-		v, err := secret.FileVault(key, filePath)
+		v, err := secret.FileVault(*key, filePath)
 		if err != nil {
 			emitError(fmt.Sprint(err))
 			return
