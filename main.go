@@ -11,11 +11,7 @@ import (
 const filePath = "/Users/stefanlapcevic/go/bin/secrets"
 
 func validateKey(key string) bool {
-	if len(key) != 16 {
-		return false
-	} else {
-		return true
-	}
+	return len(key) == 16
 }
 
 func emitError(message string) {
