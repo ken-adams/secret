@@ -5,10 +5,9 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"io"
-	"io/ioutil"
 )
 
-func encrypt(plainstring, keystring string) (string, error) {
+func Encrypt(plainstring, keystring string) (string, error) {
 	plaintext := []byte(plainstring)
 	key := []byte(keystring)
 
@@ -31,7 +30,7 @@ func encrypt(plainstring, keystring string) (string, error) {
 	return string(ciphertext), nil
 }
 
-func decrypt(cipherstring string, keystring string) string {
+func Decrypt(cipherstring string, keystring string) string {
 	ciphertext := []byte(cipherstring)
 	key := []byte(keystring)
 
@@ -50,17 +49,4 @@ func decrypt(cipherstring string, keystring string) string {
 	stream.XORKeyStream(ciphertext, ciphertext)
 
 	return string(ciphertext)
-}
-
-func writeToFile(data, file string) error {
-	err := ioutil.WriteFile(file, []byte(data), 777)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func readFromFile(file string) ([]byte, error) {
-	data, err := ioutil.ReadFile(file)
-	return data, err
 }
