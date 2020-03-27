@@ -30,9 +30,4 @@ func main() {
 	cmd.SetRunnerForGetCmd(getcommand.NewCommand(readVault))
 	cmd.SetRunnerForSetCmd(setcommand.NewCommand(filePath, readVault, secret.Encrypt, ioutil.WriteFile))
 	cmd.RootCmd.Execute()
-
-	// // perform get command
-	// v, _ := getcommand.NewCommand(vault)("test")
-	// fmt.Println("V", *v)
-	// // setcommand.NewCommand(key, filePath, vault, secret.Encrypt, ioutil.WriteFile)("test", "test")
 }
