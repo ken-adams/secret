@@ -25,12 +25,13 @@ func NewReadEncrypt(read readFile, decrypt DecryptFn) readEncrypt {
 		plaintext := "{}"
 		encrypted, err := read(filepath)
 		if err != nil {
-			return "", errors.Wrapf(err, "Error while reading from file for path: %s", filepath)
+			return plaintext, errors.Wrapf(err, "Error while reading from file for path: %s", filepath)
 		}
 
-		if len(encrypted) > 0 {
-			plaintext = decrypt(string(encrypted), key)
+		if len(encrypted) == 0 {
+			return plaintext, nil
 		}
-		return plaintext, nil
+
+		return decrypt(string(encrypted), key), nil
 	}
 }
